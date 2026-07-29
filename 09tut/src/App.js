@@ -1,4 +1,5 @@
 import Header from "./Header";
+import SearchItem from "./SearchItem";
 import AddItem from "./AddItem";
 import Content from "./Content";
 import Footer from "./Footer";
@@ -8,6 +9,7 @@ function App() {
   const [items, setItem] = useState(JSON.parse(localStorage.getItem("shoppinglist")));
 
   const [newItem, setNewItem] = useState("");
+  const [search, setSearch] = useState("");
 
   const setAndSaveItem = (newItems) => {
     setItem(newItems);
@@ -32,7 +34,7 @@ function App() {
     const listItems = items.filter((item) => item.id !== id);
     setAndSaveItem(listItems)
   };
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!newItem) return;
@@ -48,8 +50,12 @@ function App() {
         setNewItem={setNewItem}
         handleSubmit={handleSubmit}
       />
+      <SearchItem
+        search={search}
+        setSearch={setSearch}
+      />
       <Content
-        item={items}
+        item={items.filter(item => ((item.item).toLowerCase()).includes(search.toLowerCase()))}
         handleCheck={handleCheck}
         handleDelete={handleDelete}
       />
